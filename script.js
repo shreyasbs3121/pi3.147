@@ -198,23 +198,30 @@ function closeModal() {
     document.body.classList.remove('modal-open');
 }
 
-closeBtn.addEventListener('click', closeModal);
+if (closeBtn) {
+    closeBtn.addEventListener('click', closeModal);
+}
+
 window.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
+    if (modal && e.target === modal) closeModal();
 });
 
 // Swipe detection for modal images
 let startX = 0;
 let endX = 0;
 
-modalMainImage.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-});
+if (modalMainImage) {
 
-modalMainImage.addEventListener('touchend', (e) => {
-    endX = e.changedTouches[0].clientX;
-    handleSwipe();
-});
+    modalMainImage.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    });
+
+    modalMainImage.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        handleSwipe();
+    });
+
+}
 
 function handleSwipe() {
     const diff = startX - endX;
@@ -339,4 +346,5 @@ function openModal(id) {
 document.addEventListener('DOMContentLoaded', () => {
     attachCartButtons();
 });
+
 
