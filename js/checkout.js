@@ -160,11 +160,7 @@ const response = await fetch(GOOGLE_SCRIPT_URL, {
 });
   
     
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    return response;
+    return true;
 }
 
 /**
@@ -247,6 +243,7 @@ window.Checkout = {
     getCartTotal,
     getCartItemCount
 };
+
 
 
 
