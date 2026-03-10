@@ -51,7 +51,7 @@ document.querySelectorAll('section').forEach(section => {
 const productData = {
     1: {
         title: 'PI Hoodie 1',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'A premium hoodie crafted with precision and style.',
         images: [
             'images/product1/Screenshot 2026-03-03 155708.png',
@@ -62,7 +62,7 @@ const productData = {
     },
     2: {
         title: 'PI Hoodie 2',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'Comfort meets elegance in this white hoodie.',
         images: [
             'images/product2/Screenshot 2026-03-03 160141.png',
@@ -75,7 +75,7 @@ const productData = {
     },
     3: {
         title: 'PI Hoodie 3',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'Bold style with minimal design.',
         images: [
             'images/product3/Screenshot 2026-03-03 160429.png',
@@ -86,7 +86,7 @@ const productData = {
     },
     4: {
         title: 'PI Hoodie 4',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'The finest materials for everyday wear.',
         images: [
             'images/product4/Screenshot 2026-03-07 223123.png',
@@ -99,7 +99,7 @@ const productData = {
     },
     5: {
         title: 'PI Hoodie 5',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'Clean lines, premium feel.',
         images: [
             'images/product5/Screenshot 2026-03-07 223246.png',
@@ -111,7 +111,7 @@ const productData = {
     },
     6: {
         title: 'PI Hoodie 6',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'A modern twist on a classic design.',
         images: [
             'images/product6/Screenshot 2026-03-07 223331.png',
@@ -122,7 +122,7 @@ const productData = {
     },
     7: {
         title: 'PI Hoodie 7',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'Sophisticated and timeless.',
         images: [
             'images/product7/Screenshot 2026-03-07 223507.png',
@@ -132,7 +132,7 @@ const productData = {
     },
     8: {
         title: 'PI Hoodie 8',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'Lightweight fabric for all seasons.',
         images: [
             'images/product8/Screenshot 2026-03-07 223603.png',
@@ -142,7 +142,7 @@ const productData = {
     },
     9: {
         title: 'PI Hoodie 9',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'Designed for the discerning few.',
         images: [
             'images/product9/Screenshot 2026-03-07 223630.png',
@@ -153,7 +153,7 @@ const productData = {
     },
     10: {
         title: 'PI Hoodie 10',
-        price: '₹3329 <span class="offer">₹2800</span>',
+        price: '₹2399',
         description: 'Exclusive design with limited availability.',
         images: [
             'images/product10/Screenshot 2026-03-07 223718.png',
@@ -178,35 +178,6 @@ const closeBtn = document.querySelector('.close');
 let currentImages = [];
 let currentImageIndex = 0;
 
-function openModal(id) {
-    const data = productData[id];
-    if (!data) return;
-    currentImages = data.images;
-    currentImageIndex = 0;
-    modalTitle.textContent = data.title;
-    modalPrice.innerHTML = data.price;
-    modalDescription.textContent = data.description;
-
-    // populate gallery
-    modalThumbnails.innerHTML = '';
-    data.images.forEach((src, idx) => {
-        const thumb = document.createElement('img');
-        thumb.src = src;
-        if (idx === 0) thumb.classList.add('active');
-        thumb.addEventListener('click', () => {
-            changeImage(idx);
-        });
-        modalThumbnails.appendChild(thumb);
-    });
-    modalMainImage.src = data.images[0];
-
-    // Update sticky bar
-    document.getElementById('sticky-price').innerHTML = data.price;
-
-    modal.style.display = 'block';
-    modal.classList.add('show');
-    document.body.classList.add('modal-open');
-}
 
 function changeImage(index) {
     currentImageIndex = index;
@@ -291,3 +262,81 @@ document.querySelectorAll('.product-card img').forEach(img => {
         img.style.transform = 'scale(1)';
     });
 });
+
+// --- cart integration ------------------------------------------------
+function attachCartButtons() {
+    // card buttons
+    document.querySelectorAll('.product-card').forEach(card => {
+        const addBtn = card.querySelector('.add-to-cart');
+        if (addBtn) {
+            addBtn.addEventListener('click', () => {
+                const product = {
+                    id: card.dataset.id || card.getAttribute('data-product'),
+                    name: card.dataset.name || '',
+                    price: parseFloat(card.dataset.price) || 0,
+                    image: card.dataset.image || card.querySelector('img').src
+                };
+                Cart.add(product);
+            });
+        }
+    });
+
+    // modal buy-now
+    const buyNowBtn = document.getElementById('modal-buy');
+    if (buyNowBtn) {
+        buyNowBtn.addEventListener('click', e => {
+            const b = e.currentTarget;
+            const product = {
+                id: b.dataset.id,
+                name: b.dataset.name,
+                price: parseFloat(b.dataset.price) || 0,
+                image: b.dataset.image
+            };
+            Cart.add(product);
+        });
+    }
+}
+
+function openModal(id) {
+    const data = productData[id];
+    if (!data) return;
+    currentImages = data.images;
+    currentImageIndex = 0;
+    modalTitle.textContent = data.title;
+    modalPrice.innerHTML = data.price;
+    modalDescription.textContent = data.description;
+
+    // populate gallery
+    modalThumbnails.innerHTML = '';
+    data.images.forEach((src, idx) => {
+        const thumb = document.createElement('img');
+        thumb.src = src;
+        if (idx === 0) thumb.classList.add('active');
+        thumb.addEventListener('click', () => {
+            changeImage(idx);
+        });
+        modalThumbnails.appendChild(thumb);
+    });
+    modalMainImage.src = data.images[0];
+
+    // Update sticky bar
+    document.getElementById('sticky-price').innerHTML = data.price;
+
+    // set buyâ€‘now attributes for cart.js
+    const buyNowBtn = document.getElementById('modal-buy');
+    if (buyNowBtn) {
+        buyNowBtn.dataset.id = id;
+        buyNowBtn.dataset.name = data.title;
+        buyNowBtn.dataset.price = parseFloat(data.price.replace(/[^\d]/g, ''));
+        buyNowBtn.dataset.image = data.images[0];
+    }
+
+    modal.style.display = 'block';
+    modal.classList.add('show');
+    document.body.classList.add('modal-open');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    attachCartButtons();
+});
+
