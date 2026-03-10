@@ -83,9 +83,8 @@ async function handleCheckoutSubmit(e) {
     submitBtn.disabled = true;
     
     try {
-        // Send data to Google Sheets
-        await sendOrderToGoogleSheet(orderData);
-        
+       await saveOrderToFirebase(orderData);
+    
         // Show success message
         showOrderConfirmation(form);
         
@@ -242,6 +241,7 @@ window.Checkout = {
     getCartTotal,
     getCartItemCount
 };
+
 
 
 
