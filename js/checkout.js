@@ -155,8 +155,10 @@ formData.append("date", orderData.date);
 
 const response = await fetch(GOOGLE_SCRIPT_URL, {
     method: "POST",
+    mode: "no-cors",
     body: formData
 });
+  
     
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -245,5 +247,6 @@ window.Checkout = {
     getCartTotal,
     getCartItemCount
 };
+
 
 
