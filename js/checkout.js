@@ -142,13 +142,21 @@ async function sendOrderToGoogleSheet(orderData) {
         return new Promise(resolve => setTimeout(resolve, 1000));
     }
     
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orderData)
-    });
+   const formData = new FormData();
+
+formData.append("name", orderData.name);
+formData.append("phone", orderData.phone);
+formData.append("email", orderData.email);
+formData.append("address", orderData.address);
+formData.append("product", orderData.product);
+formData.append("quantity", orderData.quantity);
+formData.append("total", orderData.total);
+formData.append("date", orderData.date);
+
+const response = await fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    body: formData
+});
     
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -237,4 +245,5 @@ window.Checkout = {
     getCartTotal,
     getCartItemCount
 };
+
 
