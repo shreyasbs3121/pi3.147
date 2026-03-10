@@ -4,8 +4,7 @@
  */
 
 // Google Apps Script Web App URL - Replace with your actual URL after deploying
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydJJxm9MzypswQBZaJSdi_nEuxtQctvfkj8C28dPI5X_Rj4yW-kznCpIeSB3JaLDBL/exec";
-
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw73JxClANh1nlm-7RdOMJF-Dc0uhnbwp6-09S4ap9MrSzazIy0fA9eiCQwDUi6I3M/exec";
 /**
  * Initialize checkout functionality when DOM is ready
  */
@@ -243,6 +242,7 @@ window.Checkout = {
     getCartTotal,
     getCartItemCount
 };
+
 
 
 
