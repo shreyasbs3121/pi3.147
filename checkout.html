@@ -351,6 +351,38 @@
             if (totalEl) totalEl.textContent = '₹' + total;
         }
     </script>
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCkERQMCIpFkNEz5JBu_L7gzj-60hLV8bo",
+  authDomain: "pi-3147-store.firebaseapp.com",
+  projectId: "pi-3147-store",
+  storageBucket: "pi-3147-store.firebasestorage.app",
+  messagingSenderId: "146288293459",
+  appId: "1:146288293459:web:9409091faeac29c15f38a6",
+  measurementId: "G-FW4S173B8G"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// make a global function your checkout.js can call
+window.saveOrderToFirebase = async function(orderData) {
+  await addDoc(collection(db, "orders"), {
+    name: orderData.name,
+    phone: orderData.phone,
+    email: orderData.email,
+    address: orderData.address,
+    product: orderData.product,
+    quantity: orderData.quantity,
+    total: orderData.total,
+    date: new Date()
+  });
+};
+</script>
 </body>
 </html>
+
 
