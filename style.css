@@ -115,7 +115,7 @@ li a:hover {
 
 /* Sections */
 section {
-    padding: 100px 20px;
+    padding: 100px 15px;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -133,14 +133,22 @@ section {
     margin: 50px 0;
 }
 
-.product-card img {
+.product-grid .product-card img {
     width: 100%;
-    max-width: 400px;
-    transition: transform 0.3s;
+    aspect-ratio: 3/4;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+    border-radius: 8px;
 }
 
-.product-card:hover img {
-    transform: scale(1.05);
+.product-grid .product-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-grid .product-card img:hover {
+    transform: scale(1.08);
 }
 
 .price {
@@ -156,15 +164,24 @@ section {
 /* Shop */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
 }
 
-.product-card {
+.product-grid .product-card {
     background: #fff;
     border: 1px solid #eee;
-    padding: 20px;
-    transition: box-shadow 0.3s;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.product-grid .product-card:hover {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    transform: translateY(-8px);
 }
 
 .product-card:hover {
@@ -437,12 +454,6 @@ body.modal-open footer {
         width: 190px;
     }
 
-    /* Product grid for mobile */
-    .product-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
     .product-card {
         padding: 30px;
         border-radius: 15px;
@@ -462,10 +473,13 @@ body.modal-open footer {
         box-shadow: 0 15px 40px rgba(0,0,0,0.2);
     }
 
-    .product-card h3 {
-        font-size: 1.4rem;
-        margin-bottom: 10px;
-    }
+.product-grid .product-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1.3rem;
+    margin: 1rem 0 0.5rem;
+    color: #000;
+}
 
     .price {
         font-size: 1.2rem;
