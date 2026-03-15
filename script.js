@@ -236,14 +236,16 @@ function handleSwipe() {
     }
 }
 
-// Attach view-product buttons
-document.querySelectorAll('.view-product').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        const card = e.target.closest('.product-card');
-        const id = card.getAttribute('data-product');
+// Attach product-link clicks (replaces view-product buttons)
+document.querySelectorAll('.product-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = link.getAttribute('data-product');
         openModal(id);
     });
 });
+
+// Remove old .view-product logic (no longer used)
 
 // Parallax effect
 window.addEventListener('scroll', () => {
